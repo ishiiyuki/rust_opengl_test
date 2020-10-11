@@ -1,11 +1,11 @@
 use std::mem;
 use std::os::raw::c_void;
 
-use gl::types::{GLenum,GLfloat,GLint,GLsizei,GLsizeiptr};
+use gl::types::{GLenum, GLfloat, GLint, GLsizei, GLsizeiptr};
 
-pub struct Vecter {
+pub struct Vertex {
     vao: u32,
-    _vao: u32,
+    _vbo: u32,
     vertex_num: i32,
 }
 
@@ -54,11 +54,11 @@ impl Vertex {
         Vertex {
             vao: vao,
             _vbo: vbo,
-            vertex_num: vertex_num, 
+            vertex_num: vertex_num,
         }
     }
 
-    pub fn draw() {
+    pub fn draw(&self) {
         unsafe {
             gl::BindVertexArray(self.vao);
             gl::DrawArrays(gl::TRIANGLES, 0, self.vertex_num);

@@ -3,7 +3,7 @@ use cgmath::Matrix;
 use gl;
 use gl::types::*;
 
-use std::ffi::{CStr,CString};
+use std::ffi::{CStr, CString};
 use std::fs::File;
 use std::io::Read;
 use std::ptr;
@@ -15,7 +15,7 @@ type Vector3 = cgmath::Vector3<f32>;
 type Matrix4 = cgmath::Matrix4<f32>;
 
 pub struct Shader {
-    pub id: u32;
+    pub id: u32,
 }
 
 #[allow(dead_code)]
@@ -26,9 +26,9 @@ impl Shader {
 
         //vertex
         let mut vertex_file = File::open(vertex_path)
-            .unwrap_or_else(|_| panic!("failed to open file: {}" vertex_path));
+            .unwrap_or_else(|_| panic!("failed to open file: {}", vertex_path));
         let mut fragment_file = File::open(fragment_path)
-            .unwrap_or_else(|_| panic!("failed to open file: {}" fragment_path));
+            .unwrap_or_else(|_| panic!("failed to open file: {}", fragment_path));
         let mut vertex_code = String::new();
 
         // fragment
@@ -41,15 +41,15 @@ impl Shader {
             .expect("failed to read fragment shader file");
 
         //create cstring
-        let cstr_vertex_code = Cstring::new(
+        let cstr_vertex_code = CString::new(
             vertex_code.as_bytes()).unwrap();
-        let cstr_fraggment_code = Cstring::new(
+        let cstr_fraggment_code = CString::new(
             fragment_code.as_bytes()).unwrap();
 
         unsafe {
             //vertex shader 
-            let vertex_code = gl::CreateShader(gl::VERTEX_SHADER);
-            gl::ShaderSource(vertex_code, 1, &cstr_vertex_code.as_ptr(),ptr::null());
+            let vertex = gl::CreateShader(gl::VERTEX_SHADER);
+            gl::ShaderSource(vertex, 1, &cstr_vertex_code.as_ptr(),ptr::null());
             gl::CompileShader(vertex);
             shader.check_compile_errors(vertex,"VERTEX");
 
@@ -67,7 +67,7 @@ impl Shader {
             shader.check_compile_errors(id, "PROGRAM");
 
             //delete
-            gl::DeleteShader(vertex_code);
+            gl::DeleteShader(vertex);
             gl::DeleteShader(fragment);
 
             shader.id = id;
@@ -91,7 +91,7 @@ impl Shader {
     }
 
     pub unsafe fn set_float(&self, name: &CStr, value: f32){
-        gl::Uniform1i(gl::GetUniformLocation(self.id,name.as_ptr()), value);
+        gl::Uniform1f(gl::GetUniformLocation(self.id,name.as_ptr()), value);
     }
     
     pub unsafe fn set_vector3(&self, name: &CStr, value: &Vector3)

@@ -5,7 +5,7 @@ use std::time::Duration;
 use c_str_macro::c_str;
 use cgmath::perspective;
 use cgmath::prelude::SquareMatrix;
-use gl::types::{GLfloat,GLsizei,GLsizeiptr};
+use gl::types::{GLfloat, GLsizei, GLsizeiptr};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 
@@ -61,12 +61,12 @@ fn main() {
     ];
 
     let vertex = Vertex::new(
-        (BUF_LEN * mem::sie_of::<GLfloat>()) as GLsizeipr,
+        (BUF_LEN * mem::size_of::<GLfloat>()) as GLsizeiptr,
         buffer_array.as_ptr() as *const c_void,
         gl::STATIC_DRAW,
         vec![gl::FLOAT],
         vec![FLOAT_NUM as i32],
-        FLOAT as i32 * mem::size_of::<GLfloat>() as GLizei,
+        FLOAT_NUM as i32 * mem::size_of::<GLfloat>() as GLsizei,
         VERTEX_NUM as i32,
     );
 
@@ -103,7 +103,7 @@ fn main() {
                     y: 0.0,
                     z: 0.0,
                 },
-                Point3 {
+                Vector3 {
                     x: 0.0,
                     y: 1.0,
                     z: 0.0,
