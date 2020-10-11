@@ -4,7 +4,7 @@ use std::time::Duration;
 
 use c_str_macro::c_str;
 use cgmath::perspective;
-use cgmath::prelude::SwuareMatrix;
+use cgmath::prelude::SquareMatrix;
 use gl::types::{GLfloat,GLsizei,GLsizeiptr};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
